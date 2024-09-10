@@ -15,18 +15,21 @@
 
     <h2>Results</h2>
     <ul id="results"></ul>
-
+    <p id="errorMessage" style="color: red;"></p> <!-- New element to show error messages -->
+    
     <script>
         document.getElementById('searchForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             const suburb = document.getElementById('suburb').value;
-
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = '';  // Clear previous errors
+    
             try {
                 const response = await fetch(`/jobs?suburb=${suburb}`);
                 const jobs = await response.json();
                 const resultsList = document.getElementById('results');
                 resultsList.innerHTML = '';
-
+    
                 if (jobs.length === 0) {
                     resultsList.innerHTML = '<li>No jobs found within 20km</li>';
                 } else {
@@ -37,9 +40,11 @@
                     });
                 }
             } catch (error) {
+                errorMessage.textContent = 'An error occurred while fetching jobs. Please try again later.';
                 console.error('Error fetching jobs:', error);
             }
         });
     </script>
+    
 </body>
 </html>
