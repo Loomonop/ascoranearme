@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static('public'));
 
 // Ascora API credentials and endpoint (Replace these with your actual API credentials)
-const ASCORA_API_URL = 'https://api.ascora.com.au/Enquiry';
+const ASCORA_API_URL = 'https://api.ascora.com.au/Jobs/Jobs';
 const ASCORA_API_KEY = 'daf63ee61dc244debce0f23a19f77497940f73112f6d486fb00bcab5844336f8:36ce34d2-9aa4-447c-ba9c-1978a906eb58';
 
 // Endpoint to fetch jobs and filter by distance
@@ -26,10 +26,18 @@ app.get('/jobs', async (req, res) => {
 
         // Fetch jobs from Ascora API
         const jobsResponse = await axios.get(ASCORA_API_URL, {
-            headers: { 'Authorization': `Bearer ${ASCORA_API_KEY}` }
+            headers: { 
+                'Auth': ASCORA_API_KEY,
+                'Content-Type': 'application/json'
+            },
+            params: {
+                JobStatus: 'ALL-OPEN',
+                PageSize: 10,
+                Page: 1
+            }
         });
 
-        const jobs = jobsResponse.data;
+        const jobs = jobsResponse.data.results;
 
         // Filter jobs within 20km
         const filteredJobs = jobs.filter(job => {
@@ -42,7 +50,7 @@ app.get('/jobs', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'An error occurred' });
+        res.status(500).json({ error: 'An error occurred while fetching jobs. Please try again later.' });
     }
 });
 
