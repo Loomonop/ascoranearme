@@ -35,7 +35,7 @@
                 } else {
                     jobs.forEach(job => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = `Job ID: ${job.id}, Location: ${job.location}`;
+                        listItem.textContent = `Job ID: ${job.jobId}, Location: ${job.addressLine1}, ${job.suburb}`;
                         resultsList.appendChild(listItem);
                     });
                 }
