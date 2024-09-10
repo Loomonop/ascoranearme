@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ascora Near Me</title>
+</head>
+<body>
+    <h1>Ascora Near Me</h1>
+    <form id="searchForm">
+        <label for="suburb">Enter suburb:</label>
+        <input type="text" id="suburb" name="suburb" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Results</h2>
+    <ul id="results"></ul>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const suburb = document.getElementById('suburb').value;
+
+            try {
+                const response = await fetch(`/jobs?suburb=${suburb}`);
+                const jobs = await response.json();
+                const resultsList = document.getElementById('results');
+                resultsList.innerHTML = '';
+
+                if (jobs.length === 0) {
+                    resultsList.innerHTML = '<li>No jobs found within 20km</li>';
+                } else {
+                    jobs.forEach(job => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Job ID: ${job.id}, Location: ${job.location}`;
+                        resultsList.appendChild(listItem);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+            }
+        });
+    </script>
+</body>
+</html>
