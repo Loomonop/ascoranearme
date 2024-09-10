@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static('public'));
 
 // Ascora API credentials and endpoint (Replace these with your actual API credentials)
-const ASCORA_API_URL = 'https://api.ascora.com/your-endpoint';
-const ASCORA_API_KEY = 'your-api-key';
+const ASCORA_API_URL = 'https://api.ascora.com.au/Enquiry';
+const ASCORA_API_KEY = 'daf63ee61dc244debce0f23a19f77497940f73112f6d486fb00bcab5844336f8:36ce34d2-9aa4-447c-ba9c-1978a906eb58';
 
 // Endpoint to fetch jobs and filter by distance
 app.get('/jobs', async (req, res) => {
